@@ -1,3 +1,6 @@
+## Note that this is more description than I would usually include or expect to
+## see. However, since a lot of the students here are beginners, I thought a very
+## detailed walk-through might be beneficial in their learning.
 
 ## These two functions, working in tandem, allow a user to create a matrix and
 ## calculate it's inverse,  then store that value in a cache so it can be called
@@ -11,13 +14,13 @@
 ## This first function sets up an environment that contains variables corresponding
 ## to a matrix, and several functions. The set function can be used on it's own
 ## to update the value of the matrix, and the get function on it's own to see the
-## value of the non-inverse matrix. The functions get, setmatrix, and getmatrix
-## all are used later in the cacheSolve function. One could use the getmatrix
+## value of the non-inverse matrix. The functions get, setinverse, and getinverse
+## all are used later in the cacheSolve function. One could use the getinverse
 ## function on it's own to see the value of an inversed matrix, but only after
 ## running cacheSolve, and the answer would be the same as running cacheSolve. 
-## One could tehcnicaly use the setmatrix function on it's own, but that would not 
-## be advisable as that is meant to be calculated as an inverse of a matrix, not
-## just input manually.
+## One could tehcnicaly use the setinverse function on it's own, but that would
+## not be advisable as that is meant to be calculated as an inverse of a matrix,
+## not just input manually.
 
 makeCacheMatrix <- function(x = matrix()) {
      # This initiates i as an empty object.
@@ -34,18 +37,18 @@ makeCacheMatrix <- function(x = matrix()) {
      # determined by either an original makeCacheMatrix value, or a x$set value).
      get <- function() x
      # This creates a function that replaces the empty i object in the parent
-     # environment with the value of the function's arguement (solve). This solve
-     # argument will be filled in near the end of the cacheSolve function.
-     setmatrix <- function(solve)
-                    i <<- solve
+     # environment with the value of the function's arguement (inverse). This
+     # inverse argument will be filled in near the end of the cacheSolve function.
+     setinverse <- function(inverse)
+                    i <<- inverse
      # This function simply returns the value of i, previously NULL but set to a
-     # particular matrix by the previous setmatrix function.
-     getmatrix <- function() i
+     # particular matrix by the previous setinverse function.
+     getinverse <- function() i
      # This puts each of the above functions into a list and assigns them a name,
      # allowing the use of a $ operator in the cacheSolve function.
      list(set = set, get = get,
-          setmatrix = setmatrix,
-          getmatrix = getmatrix)
+          setinverse = setinverse,
+          getinverse = getinverse)
      
 }
 
@@ -55,12 +58,12 @@ makeCacheMatrix <- function(x = matrix()) {
 ## inversed matrix in cached memory, and prints the inversed matrix.
 
 cacheSolve <- function(x, ...) {
-     # This defines i2 as the value found by running getmatrix on a particular
-     # object. If it finds that it is not NULL (ie, does contain a value),
+     # This defines i2 as the value found by running getinverse on a particular
+     # object x. If it finds that it is not NULL (ie, does contain a value),
      # that means that the matrix inverse has already been calculated and is
      # waiting in cache, so a brief message is printed, and then it returns the
      # value of the cached matrix, with no calculation necessary.
-     i2 <- x$getmatrix()
+     i2 <- x$getinverse()
           if (!is.null(i2)) {
                message("getting cached data")
                return(i2)
@@ -72,9 +75,9 @@ cacheSolve <- function(x, ...) {
           # defines it as the i2 variable.
           i2 <- solve(data, ...)
           # It then takes that calculated matrix (i2) and stores it in cached
-          # memory by running the x$setmatrix function (found within the
+          # memory by running the x$setinverse function (found within the
           # environment of x).
-          x$setmatrix(i2)
+          x$setinverse(i2)
           # Finally, it returns a matrix that is the inverse of 'x'.
           i2
 }
